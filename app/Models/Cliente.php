@@ -22,13 +22,8 @@ class Cliente extends Model
         return $this->morphMany(Endereco::class, 'rel');
     }
 
-    public function imovel()
+    public function imoveis()
     {
         return $this->hasMany("App\Models\Imovel");
-    }
-
-    public function permunta()
-    {
-        return $this->hasMany("App\Models\Permuta");
     }
 }

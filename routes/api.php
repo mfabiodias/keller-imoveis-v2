@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,17 @@ Route::name('api.')->group(function () {
     Route::get('ping', [UserController::class, 'ping'])
         ->middleware('auth:sanctum')
         ->name('ping');
+});
+######################################################
+######################################################
+
+
+######################################################
+# Grupo de rotas para usuários autenticados          #
+######################################################
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    # Rotas de clientes
+    Route::apiResource('cliente', ClienteController::class);
 });
 ######################################################
 ######################################################
