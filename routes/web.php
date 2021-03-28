@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Test', ["name" => "Fabio"]);
 });
 
 Route::get('test/{id}', [TestController::class, 'index'])

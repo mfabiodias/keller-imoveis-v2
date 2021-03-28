@@ -30,8 +30,12 @@ Route::name('api.')->group(function () {
 # Grupo de rotas para usuários autenticados          #
 ######################################################
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    # Rotas de clientes
-    Route::apiResource('cliente', ClienteController::class);
+    // # Rotas de clientes
+    // Route::apiResource('cliente', ClienteController::class);
 });
 ######################################################
 ######################################################
+
+
+# Rotas de clientes
+Route::apiResource('cliente', ClienteController::class);

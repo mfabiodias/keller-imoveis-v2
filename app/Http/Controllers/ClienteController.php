@@ -17,6 +17,20 @@ class ClienteController extends Controller
         $this->context = "Cliente";
     }
 
+
+    // public function show(Event $event)
+    // {
+    //     return Inertia::render('Event/Show', [
+    //         'event' => $event->only(
+    //             'id',
+    //             'title',
+    //             'start_date',
+    //             'description'
+    //         ),
+    //     ]);
+    // }
+
+
     public function index()
     {
         # Obtem um novo construtor de consulta
