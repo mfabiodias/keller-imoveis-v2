@@ -47,7 +47,7 @@ trait UserRolePermission {
             $qty = preg_replace("/[^0-9]/", "", $req['qty']);
         }
 
-        return (int) $qty > 100 ? 10 : $qty;
+        return (int) $qty > 100 ? 10 : (int) $qty;
     }
 
     public function queryWhere() 

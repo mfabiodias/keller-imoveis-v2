@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Table } from 'reactstrap';
-// import { Pagination } from 'react-laravel-paginex';
 import Pagination from "react-js-pagination"; 
 import { Inertia } from '@inertiajs/inertia'; 
 
 const Cliente = ({rtn}) => {
+
+  console.log(rtn.meta)
 
   const [meta, setMeta] = useState(rtn.meta);
   const [data, setData] = useState();
@@ -29,8 +30,9 @@ const Cliente = ({rtn}) => {
 
   // Busca dados da API
   const getData = (page) => {
-    Inertia.get('/cliente?page=' + page, { headers: 'Authorization:Bearer 6|yM5QkC0nS547uT9GBM4qFsLGooZpzeEN6L8c5uS1' }, {
+    Inertia.get('/cliente?page=' + page, {}, {
         preserveState: true,
+        preserveScroll: true,
         onSuccess: (comp) => {
           setMeta(comp.props.rtn.meta)
           setData(mountData(comp.props.rtn.data));

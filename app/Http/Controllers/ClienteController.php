@@ -7,6 +7,7 @@ use App\Http\Resources\Cliente\{
     ClienteCollection, ClienteResource 
 };
 use App\Models\Cliente;
+use Inertia\Inertia;
 
 class ClienteController extends Controller
 {
@@ -66,7 +67,12 @@ class ClienteController extends Controller
             }
         }
         
-        return new ClienteCollection($query->paginate(auth()->user()->queryPaginate()));
+        // $rtn = new ClienteCollection($query->paginate(auth()->user()->queryPaginate()));
+        $rtn = new ClienteCollection($query->paginate(5));
+
+        return Inertia::render('Cliente/Listar', [
+            'rtn' => $rtn,
+        ]);
     }
 
     public function store(ClienteUpsertRequest $request)
