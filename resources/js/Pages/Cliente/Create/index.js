@@ -13,7 +13,7 @@ const Create = () => {
 
     function handleSubmit(event) {
         event.preventDefault();
-        Inertia.post(route('books.store'), data);
+        Inertia.post(route('cliente.store'), data);
     }
 
     function handleInputChange(event) {

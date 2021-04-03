@@ -19,19 +19,6 @@ class ClienteController extends Controller
     }
 
 
-    // public function show(Event $event)
-    // {
-    //     return Inertia::render('Event/Show', [
-    //         'event' => $event->only(
-    //             'id',
-    //             'title',
-    //             'start_date',
-    //             'description'
-    //         ),
-    //     ]);
-    // }
-
-
     public function index()
     {
         # Obtem um novo construtor de consulta
@@ -65,14 +52,21 @@ class ClienteController extends Controller
             foreach($orderByData as $orderBy) {
                 $query->orderBy($orderBy[0], $orderBy[1]);
             }
+        } else {
+            $query->orderBy("id", "desc");
         }
         
         // $rtn = new ClienteCollection($query->paginate(auth()->user()->queryPaginate()));
         $rtn = new ClienteCollection($query->paginate(5));
 
-        return Inertia::render('Cliente/Listar', [
+        return Inertia::render('Cliente/List', [
             'rtn' => $rtn,
         ]);
+    }
+
+    public function create()
+    {
+        inertia("Cliente/Create");
     }
 
     public function store(ClienteUpsertRequest $request)

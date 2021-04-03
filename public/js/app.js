@@ -3992,7 +3992,7 @@ var Create = function Create() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia.post(route('books.store'), data);
+    _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia.post(route('cliente.store'), data);
   }
 
   function handleInputChange(event) {
@@ -4061,10 +4061,10 @@ var Create = function Create() {
 
 /***/ }),
 
-/***/ "./resources/js/Pages/Cliente/Listar/index.js":
-/*!****************************************************!*\
-  !*** ./resources/js/Pages/Cliente/Listar/index.js ***!
-  \****************************************************/
+/***/ "./resources/js/Pages/Cliente/List/index.js":
+/*!**************************************************!*\
+  !*** ./resources/js/Pages/Cliente/List/index.js ***!
+  \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -42141,10 +42141,10 @@ var map = {
 	"./Cliente/Create/": "./resources/js/Pages/Cliente/Create/index.js",
 	"./Cliente/Create/index": "./resources/js/Pages/Cliente/Create/index.js",
 	"./Cliente/Create/index.js": "./resources/js/Pages/Cliente/Create/index.js",
-	"./Cliente/Listar": "./resources/js/Pages/Cliente/Listar/index.js",
-	"./Cliente/Listar/": "./resources/js/Pages/Cliente/Listar/index.js",
-	"./Cliente/Listar/index": "./resources/js/Pages/Cliente/Listar/index.js",
-	"./Cliente/Listar/index.js": "./resources/js/Pages/Cliente/Listar/index.js",
+	"./Cliente/List": "./resources/js/Pages/Cliente/List/index.js",
+	"./Cliente/List/": "./resources/js/Pages/Cliente/List/index.js",
+	"./Cliente/List/index": "./resources/js/Pages/Cliente/List/index.js",
+	"./Cliente/List/index.js": "./resources/js/Pages/Cliente/List/index.js",
 	"./Test": "./resources/js/Pages/Test/index.js",
 	"./Test/": "./resources/js/Pages/Test/index.js",
 	"./Test/index": "./resources/js/Pages/Test/index.js",

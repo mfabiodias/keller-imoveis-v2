@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth']], function(){
     # Rotas de clientes
-    Route::apiResource('cliente', ClienteController::class);
+    Route::resource('cliente', ClienteController::class);
 });
 
 require __DIR__.'/auth.php';
