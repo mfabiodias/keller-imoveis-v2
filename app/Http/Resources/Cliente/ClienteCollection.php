@@ -15,7 +15,7 @@ class ClienteCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data' => $this->collection,
+            'rows' => $this->collection,
         ];
     }
 }

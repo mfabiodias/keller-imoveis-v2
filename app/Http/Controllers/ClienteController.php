@@ -55,13 +55,8 @@ class ClienteController extends Controller
         } else {
             $query->orderBy("id", "desc");
         }
-        
-        // $rtn = new ClienteCollection($query->paginate(auth()->user()->queryPaginate()));
-        $rtn = new ClienteCollection($query->paginate(5));
 
-        return Inertia::render('Cliente/List', [
-            'rtn' => $rtn,
-        ]);
+        return Inertia::render('Cliente/List', [ 'rtn' => new ClienteCollection($query->get()) ]);
     }
 
     public function create()

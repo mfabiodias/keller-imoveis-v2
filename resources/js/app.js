@@ -1,8 +1,7 @@
 import { App } from '@inertiajs/inertia-react';
 import React from 'react';
 import { render } from 'react-dom';
-require('alpinejs');
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'antd/dist/antd.css';
 
 const el = document.getElementById('app');
 

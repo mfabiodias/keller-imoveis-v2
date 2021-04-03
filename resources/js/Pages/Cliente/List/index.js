@@ -1,75 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import { Table } from 'reactstrap';
-import Pagination from "react-js-pagination"; 
-import { Inertia } from '@inertiajs/inertia'; 
+import React from 'react';
+import { Table, Tag, Space } from 'antd';
 
 const Cliente = ({rtn}) => {
 
-  console.log(rtn.meta)
 
-  const [meta, setMeta] = useState(rtn.meta);
-  const [data, setData] = useState();
+  console.log(rtn);
 
-  useEffect(() => {
-    getData(1);
-  }, []);
-
-  // Monta dados da tabela
-  const mountData = (data) => {
-    return data.map((el,idx) => {
-      return (
-        <tr key={`cliente-${idx}`}>
-          <th scope="row">{el.id}</th>
-          <td>{el.nome}</td>
-          <td>{el.email}</td>
-          <td>{el.tipo}</td>
-        </tr>
-      )
-    })
-  }
-
-  // Busca dados da API
-  const getData = (page) => {
-    Inertia.get('/cliente?page=' + page, {}, {
-        preserveState: true,
-        preserveScroll: true,
-        onSuccess: (comp) => {
-          setMeta(comp.props.rtn.meta)
-          setData(mountData(comp.props.rtn.data));
-        },
-        onError: (errors) => {
-          console.log("onError", errors)
-        },
-      }
-    );
-  }
+  const columns = [
+    {
+      title: '# ID',
+      dataIndex: 'id',
+      key: 'id',
+      render: text => <a>{text}</a>,
+    },
+    {
+      title: 'Nome',
+      dataIndex: 'nome',
+      key: 'name',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'Tipo',
+      dataIndex: 'tipo',
+      key: 'tipo',
+    },
+    {
+      title: 'Ações',
+      key: 'action',
+      render: (text, record) => (
+        <Space size="middle">
+          <a>Invite {record.name}</a>
+          <a>Delete</a>
+        </Space>
+      ),
+    },
+  ];
 
   return (
-    <>
-      <Table id="cliente-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Tipo</th>
-          </tr>
-        </thead>
-        <tbody> 
-            { data }
-        </tbody>
-      </Table>
-
-      <Pagination
-        itemClass={"page-item"}
-        linkClass={"page-link"}
-        activePage={meta.current_page}
-        itemsCountPerPage={meta.per_page}
-        totalItemsCount={meta.total}
-        onChange={getData}
-      />
-
-    </>
+    <Table 
+      columns={columns} 
+      dataSource={rtn.data.rows} 
+      pagination={{ pageSize: 5 }}
+    />
   );
 }
 
