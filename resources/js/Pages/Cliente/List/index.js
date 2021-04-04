@@ -1,5 +1,5 @@
 import React from 'react';
-import { Space } from 'antd';
+import { InertiaLink } from '@inertiajs/inertia-react';
 import { DataTable } from "../../../Components";
 import parse from 'html-react-parser';
 
@@ -42,9 +42,17 @@ const Client = ({rtn}) => {
             title: 'Ações',
             key: 'action',
             render: (text, record) => (
-                <Space size="middle">
-                    <a>Editar {record.id} </a>
-                </Space>
+                <>
+                    <InertiaLink href={route('cliente.show', { cliente: record.id })} as="button">
+                        Show
+                    </InertiaLink>
+                    <InertiaLink href={route('cliente.edit', { cliente: record.id })} as="button">
+                        Editar
+                    </InertiaLink>
+                    <InertiaLink href={route('cliente.destroy', { cliente: record.id })} as="button" method="delete">
+                        Excluir
+                    </InertiaLink>
+                </>
             ),
         },
     ];

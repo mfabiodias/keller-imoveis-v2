@@ -7,17 +7,16 @@ use App\Http\Resources\Cliente\{
     ClienteCollection, ClienteResource 
 };
 use App\Models\Cliente;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class ClienteController extends Controller
 {
-    private $context;
-
     public function __construct()
     {
         $this->context = "Cliente";
     }
-
 
     public function index()
     {
@@ -53,7 +52,7 @@ class ClienteController extends Controller
                 $query->orderBy($orderBy[0], $orderBy[1]);
             }
         } else {
-            // $query->orderBy("id", "desc");
+            $query->orderBy("id", "desc");
         }
 
         return Inertia::render('Cliente/List', [ 'rtn' => new ClienteCollection($query->get()) ]);
@@ -61,7 +60,7 @@ class ClienteController extends Controller
 
     public function create()
     {
-        inertia("Cliente/Create");
+        return inertia('Cliente/Create');
     }
 
     public function store(ClienteUpsertRequest $request)
@@ -71,12 +70,10 @@ class ClienteController extends Controller
             'nextel_id', 'nacionalidade', 'doc_tipo', 'doc_numero', 'perfil', 'fase', 'tipo', 
             'investidor', 'origem'
         ]);
-        $data = Cliente::create($data);
-        
-        $rtn = ['message' => $this->context.' criado com sucesso.', 'data' => $data ];
-        $sts = 201;
 
-        return response()->json($rtn, $sts);
+        $data = Cliente::create($data);
+
+        return Redirect::route('cliente.index');
     }
 
     public function show($id)
@@ -86,14 +83,23 @@ class ClienteController extends Controller
         $cliente = Cliente::find($id);
 
         if(!$cliente) {
-            $rtn = [ 'message'=> $this->context.' não encontrado.' ];
-            $sts = 404;
-        } else {
-            $rtn = [ 'message'=> $this->context.' encontrado', 'data' => new ClienteResource($cliente) ];
-            $sts = 200;
+            return Redirect::route('cliente.index');
         }
 
-        return response()->json($rtn, $sts);
+        return inertia('Cliente/Show', ['cliente' => $cliente]);
+    }
+
+    public function edit($id)
+    {
+        $id = preg_replace("/[^0-9]/", "", $id);
+
+        $cliente = Cliente::find($id);
+
+        if(!$cliente) {
+            return Redirect::route('cliente.index');
+        }
+
+        return inertia('Cliente/Edit', ['cliente' => $cliente]);
     }
 
     public function update(ClienteUpsertRequest $request, $id)
@@ -106,58 +112,129 @@ class ClienteController extends Controller
         ]);
         $cliente = Cliente::find($id);
 
-        if(!$cliente) {
-            $rtn = [ 'message'=> $this->context.' não encontrado.' ];
-            $sts = 404;
-        } else {
-            $cliente->update($data);
-            $rtn = [ 'message'=> $this->context.' atualizado com sucesso.', 'data' => Cliente::find($cliente->id) ];
-            $sts = 201;
-        }
-        
-        return response()->json($rtn, $sts);
+        // if(!$cliente) {
+        //     $rtn = [ 'message'=> $this->context.' não encontrado.' ];
+        //     $sts = 404;
+        // } else {
+        //     $cliente->update($data);
+        //     $rtn = [ 'message'=> $this->context.' atualizado com sucesso.', 'data' => Cliente::find($cliente->id) ];
+        //     $sts = 201;
+        // }
+
+        return Redirect::route('cliente.index');
     }
 
     public function destroy($id)
     {
-        $id = preg_replace("/[^0-9]/", "", $id);
+        dd($id);
         
-        # Bloqueia o acesso de onwer
-        if(auth()->user()->checkTypes($this->checkType)) {
-            return response()->json(['message' => $this->checkFailMessage], 401);
-        }
-
-        # Verifica permissão de acesso
-        $method = 'excluír';
-        if(!auth()->user()->checkPermission($this->type, $this->page, __FUNCTION__)) {
-            return response()->json(['message' => str_replace('{method}', $method, $this->checkFailPermission)], 401);
-        }
+        $id = preg_replace("/[^0-9]/", "", $id);
 
         $cliente = Cliente::find($id);
 
-        if(!$cliente) {
-            return response()->json([
-                'message'   => $this->context.' não encontrado.',
-            ], 404);
-        } else { 
-            $enderecoQty = count($cliente->enderecos);
-            $imovelQty   = count($cliente->imoveis);
-
-            $rtn = [ 'message' => '', 'data' => new ClienteResource($cliente) ];
-
-            if($enderecoQty > 0) {
-                $rtn['message'] = $this->context.' não pode ser excluído! '.$enderecoQty.' endereço(s) vinculado(s)';
-                $sts = 403;
-            } else if($imovelQty > 0) {
-                $rtn['message'] = $this->context.' não pode ser excluído! '.$imovelQty.' imovel(s) vinculado(s)';
-                $sts = 403;
-            } else {
-                $cliente->delete();
-                $rtn = [ 'message' => $this->context.' excluído com sucesso.' ];
-                $sts = 200;
-            }
-
-            return response()->json($rtn, $sts);
-        }
+        //$cliente->delete();
+        return Redirect::route('cliente.index');
     }
+
+    // public function create()
+    // {
+    //     inertia("Cliente/Create");
+    // }
+
+    // public function store(ClienteUpsertRequest $request)
+    // {
+    //     $data = $request->only([ 
+    //         'nome', 'email', 'tel_residencial', 'tel_comercial', 'cel', 'cel_operadora', 
+    //         'nextel_id', 'nacionalidade', 'doc_tipo', 'doc_numero', 'perfil', 'fase', 'tipo', 
+    //         'investidor', 'origem'
+    //     ]);
+    //     $data = Cliente::create($data);
+        
+    //     $rtn = ['message' => $this->context.' criado com sucesso.', 'data' => $data ];
+    //     $sts = 201;
+
+    //     return response()->json($rtn, $sts);
+    // }
+
+    // public function show($id)
+    // {
+    //     $id = preg_replace("/[^0-9]/", "", $id);
+
+    //     $cliente = Cliente::find($id);
+
+    //     if(!$cliente) {
+    //         $rtn = [ 'message'=> $this->context.' não encontrado.' ];
+    //         $sts = 404;
+    //     } else {
+    //         $rtn = [ 'message'=> $this->context.' encontrado', 'data' => new ClienteResource($cliente) ];
+    //         $sts = 200;
+    //     }
+
+    //     return response()->json($rtn, $sts);
+    // }
+
+    // public function update(ClienteUpsertRequest $request, $id)
+    // {
+    //     $id = preg_replace("/[^0-9]/", "", $id);
+
+    //     $data = $request->only([ 
+    //         'tel_residencial', 'tel_comercial', 'cel', 'cel_operadora', 'nextel_id', 'nacionalidade', 
+    //         'doc_tipo', 'doc_numero', 'perfil', 'fase', 'tipo', 'investidor', 'origem'
+    //     ]);
+    //     $cliente = Cliente::find($id);
+
+    //     if(!$cliente) {
+    //         $rtn = [ 'message'=> $this->context.' não encontrado.' ];
+    //         $sts = 404;
+    //     } else {
+    //         $cliente->update($data);
+    //         $rtn = [ 'message'=> $this->context.' atualizado com sucesso.', 'data' => Cliente::find($cliente->id) ];
+    //         $sts = 201;
+    //     }
+        
+    //     return response()->json($rtn, $sts);
+    // }
+
+    // public function destroy($id)
+    // {
+    //     $id = preg_replace("/[^0-9]/", "", $id);
+        
+    //     # Bloqueia o acesso de onwer
+    //     if(auth()->user()->checkTypes($this->checkType)) {
+    //         return response()->json(['message' => $this->checkFailMessage], 401);
+    //     }
+
+    //     # Verifica permissão de acesso
+    //     $method = 'excluír';
+    //     if(!auth()->user()->checkPermission($this->type, $this->page, __FUNCTION__)) {
+    //         return response()->json(['message' => str_replace('{method}', $method, $this->checkFailPermission)], 401);
+    //     }
+
+    //     $cliente = Cliente::find($id);
+
+    //     if(!$cliente) {
+    //         return response()->json([
+    //             'message'   => $this->context.' não encontrado.',
+    //         ], 404);
+    //     } else { 
+    //         $enderecoQty = count($cliente->enderecos);
+    //         $imovelQty   = count($cliente->imoveis);
+
+    //         $rtn = [ 'message' => '', 'data' => new ClienteResource($cliente) ];
+
+    //         if($enderecoQty > 0) {
+    //             $rtn['message'] = $this->context.' não pode ser excluído! '.$enderecoQty.' endereço(s) vinculado(s)';
+    //             $sts = 403;
+    //         } else if($imovelQty > 0) {
+    //             $rtn['message'] = $this->context.' não pode ser excluído! '.$imovelQty.' imovel(s) vinculado(s)';
+    //             $sts = 403;
+    //         } else {
+    //             $cliente->delete();
+    //             $rtn = [ 'message' => $this->context.' excluído com sucesso.' ];
+    //             $sts = 200;
+    //         }
+
+    //         return response()->json($rtn, $sts);
+    //     }
+    // }
 }
