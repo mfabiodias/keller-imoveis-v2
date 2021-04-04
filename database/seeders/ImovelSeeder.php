@@ -13,6 +13,6 @@ class ImovelSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Imovel::factory(20)->create();
+        \App\Models\Imovel::factory(200)->create();
     }
 }

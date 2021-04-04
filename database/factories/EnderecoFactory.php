@@ -22,11 +22,10 @@ class EnderecoFactory extends Factory
     public function definition()
     {
         $estado   = ["SP", "BA", "PR", "PE", "MG"];
-        $rel_id   = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
         $rel_type = ['cliente', 'imovel'];
 
         return [
-            'rel_id'      => $rel_id[rand(0,(count($rel_id)-1))],
+            'rel_id'      => rand(1,200),
             'rel_type'    => $rel_type[rand(0,(count($rel_type)-1))],
             'cep'         => rand(11111111,99999999),
             'rua'         => $this->faker->address,

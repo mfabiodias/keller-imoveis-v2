@@ -35,7 +35,7 @@ class ImovelFactory extends Factory
         ];
 
         return [
-            'cliente_id'    => rand(1,20),
+            'cliente_id'    => rand(1,200),
             'tipo_id'       => $tipo_id,
             'subtipo_id'    => $subtipo_id[$tipo_id],
             'nome'          => $this->faker->name,

@@ -53,7 +53,7 @@ class ClienteController extends Controller
                 $query->orderBy($orderBy[0], $orderBy[1]);
             }
         } else {
-            $query->orderBy("id", "desc");
+            // $query->orderBy("id", "desc");
         }
 
         return Inertia::render('Cliente/List', [ 'rtn' => new ClienteCollection($query->get()) ]);
